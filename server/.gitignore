@@ -1,0 +1,16 @@
+# Python
+*.pyc
+__pycache__/
+bcg/
+*.egg-info/
+dist/
+build/
+
+# FastAPI
+/.vscode/
+/.idea/
+/.mypy_cache/
+/.pytest_cache/
+/.coverage
+.coverage.*
+htmlcov/
