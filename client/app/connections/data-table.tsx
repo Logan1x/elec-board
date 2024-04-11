@@ -78,11 +78,6 @@ export function DataTable<TData, TValue>({
   const [modalIsOpen, setIsOpen] = useState(false);
   const [currentRow, setCurrentRow] = useState(null);
 
-  const [date, setDate] = useState({
-    from: new Date(2022, 0, 20),
-    to: addDays(new Date(2022, 0, 20), 20),
-  });
-
   function openModal(row) {
     setIsOpen(true);
     setCurrentRow(row);
@@ -112,13 +107,7 @@ export function DataTable<TData, TValue>({
         </div>
         <div>
           <label className="text-xs">Date of Application</label>
-          <DatePickerWithRange
-            date={date}
-            onChange={(range) => {
-              setDate(range);
-              table.getColumn("Date_of_Application")?.setFilterValue(range);
-            }}
-          />
+          <DatePickerWithRange />
         </div>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -234,7 +223,7 @@ export function DataTable<TData, TValue>({
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
         contentLabel="Row Data"
-        className="h-full w-screen bg-background px-12 py-4 overflow-y-scroll md:overflow-hidden"
+        className="h-full w-screen bg-background px-12 overflow-y-scroll md:overflow-hidden container mx-auto py-10"
       >
         <h2 className="text-center text-2xl font-semibold mb-4">
           Edit Connection Record
