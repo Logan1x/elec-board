@@ -8,31 +8,14 @@ import { Button } from "@/components/ui/button";
 import {
   Form,
   FormControl,
-  FormDescription,
   FormField,
   FormItem,
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { DialogClose, DialogFooter } from "@/components/ui/dialog";
 import { IConnectionRecord } from "./columns";
-import {
-  Select,
-  SelectTrigger,
-  SelectValue,
-  SelectContent,
-  SelectItem,
-} from "@radix-ui/react-select";
-import { cn } from "@/lib/utils";
-import {
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-} from "@radix-ui/react-popover";
-import { format } from "date-fns";
-import { CalendarIcon, Calendar, LoaderCircle } from "lucide-react";
-import { on } from "events";
+import { LoaderCircle } from "lucide-react";
 import { axUpdateConnection } from "@/services/connection";
 import { useState } from "react";
 
@@ -110,9 +93,9 @@ export function EditForm({
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className="space-8 w-full py-4"
+        className="space-8 w-full md:w:4/5 py-8"
       >
-        <div className="grid grid-cols-3 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
           <FormField
             control={form.control}
             name="ID"
@@ -360,7 +343,9 @@ export function EditForm({
             </Button>
           )}
 
-          <Button onClick={closeModal}>Close</Button>
+          <Button variant={"outline"} onClick={closeModal}>
+            Close
+          </Button>
         </div>
       </form>
     </Form>

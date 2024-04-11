@@ -41,7 +41,6 @@ export default function Visualization({ connectionRecords }: Props) {
   const getMonthlyData = () => {
     const filteredRecords = connectionRecords.filter((record) => {
       const output = record.Status.trim() === selectedStatus;
-      debugger;
       return output;
     });
 
@@ -60,7 +59,7 @@ export default function Visualization({ connectionRecords }: Props) {
       <h2 className="text-center text-2xl font-semibold mb-4">
         Connection Requests Visualization
       </h2>
-      <div className="m-auto w-4/5">
+      <div className="w-full m-auto md:w-4/5 my-2">
         <label htmlFor="status" className="text-sm">
           Select Status
         </label>
@@ -85,7 +84,7 @@ export default function Visualization({ connectionRecords }: Props) {
           </SelectContent>
         </Select>
       </div>
-      <div className="w-3/5 m-auto">
+      <div className="w-full md:w-3/5  m-auto">
         <Line
           data={{
             labels: [
@@ -104,10 +103,10 @@ export default function Visualization({ connectionRecords }: Props) {
             ],
             datasets: [
               {
-                label: "Number of Connection Requests",
+                label: `Number of Connection Requests by Month for ${selectedStatus} Status`,
                 data: getMonthlyData(),
-                backgroundColor: "rgba(75,192,192,0.2)",
-                borderColor: "rgba(75,192,192,1)",
+                backgroundColor: "#475569",
+                borderColor: "#94a3b8",
                 borderWidth: 1,
               },
             ],

@@ -34,6 +34,9 @@ import {
 import { EditForm } from "./form";
 import { LoaderCircle, Pencil } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
+import { DatePickerWithRange } from "@/components/ui/date-range-picker";
+import { addDays } from "date-fns";
+import { Label } from "@/components/ui/label";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -75,6 +78,11 @@ export function DataTable<TData, TValue>({
   const [modalIsOpen, setIsOpen] = useState(false);
   const [currentRow, setCurrentRow] = useState(null);
 
+  const [date, setDate] = useState({
+    from: new Date(2022, 0, 20),
+    to: addDays(new Date(2022, 0, 20), 20),
+  });
+
   function openModal(row) {
     setIsOpen(true);
     setCurrentRow(row);
@@ -89,15 +97,29 @@ export function DataTable<TData, TValue>({
       <h2 className="text-center text-2xl font-semibold mb-4">
         Connection Records
       </h2>
-      <div className="flex items-center py-4">
-        <Input
-          placeholder="Filter IDs..."
-          value={(table.getColumn("ID")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("ID")?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm"
-        />
+      <div className="flex flex-col md:flex-row items-end py-4 gap-2">
+        <div>
+          <label className="text-xs">Filter ID</label>
+          <Input
+            placeholder="Filter IDs..."
+            value={(table.getColumn("ID")?.getFilterValue() as string) ?? ""}
+            onChange={(event) =>
+              table.getColumn("ID")?.setFilterValue(event.target.value)
+            }
+            className="max-w-sm"
+            type="number"
+          />
+        </div>
+        <div>
+          <label className="text-xs">Date of Application</label>
+          <DatePickerWithRange
+            date={date}
+            onChange={(range) => {
+              setDate(range);
+              table.getColumn("Date_of_Application")?.setFilterValue(range);
+            }}
+          />
+        </div>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">
@@ -212,6 +234,7 @@ export function DataTable<TData, TValue>({
         isOpen={modalIsOpen}
         onRequestClose={closeModal}
         contentLabel="Row Data"
+        className="h-full w-screen bg-background px-12 py-4 overflow-y-scroll md:overflow-hidden"
       >
         <h2 className="text-center text-2xl font-semibold mb-4">
           Edit Connection Record

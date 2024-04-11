@@ -4,9 +4,6 @@ import { useEffect, useState } from "react";
 import { IConnectionRecord, columns } from "./columns";
 import { DataTable } from "./data-table";
 import { axGetAllConnections } from "@/services/connection";
-import { Dialog } from "@/components/ui/dialog";
-import EditRecord from "./edit-record";
-import { set } from "date-fns";
 import Visualization from "./visualization";
 
 export default function Connections() {
@@ -32,18 +29,14 @@ export default function Connections() {
     fetchConnections();
   }, [refetchRecords]);
 
-  console.log("connectionRecords", connectionRecords);
-
   return (
     <div className="container mx-auto py-10">
-      <Dialog>
-        <DataTable
-          columns={columns}
-          data={connectionRecords}
-          setRefetchRecords={setRefetchRecords}
-          isLoading={isLoading}
-        />
-      </Dialog>
+      <DataTable
+        columns={columns}
+        data={connectionRecords}
+        setRefetchRecords={setRefetchRecords}
+        isLoading={isLoading}
+      />
 
       {connectionRecords.length > 0 && (
         <Visualization connectionRecords={connectionRecords} />

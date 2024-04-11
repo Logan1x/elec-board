@@ -51,6 +51,7 @@ export const columns: ColumnDef<IConnectionRecord>[] = [
       const id: number = row.getValue("ID");
       return <div className="text-right">{id}</div>;
     },
+    filterFn: "weakEquals",
   },
   {
     accessorKey: "Applicant_Name",
@@ -193,6 +194,12 @@ export const columns: ColumnDef<IConnectionRecord>[] = [
       const Date_of_Application: any = row.getValue("Date_of_Application");
       return <div className="text-right">{Date_of_Application}</div>;
     },
+    // filterFn: (rows, id, filterValue) => {
+    //   return (
+    //     rows.original.Date_of_Application >= filterValue.from &&
+    //     rows.original.Date_of_Application <= filterValue.to
+    //   );
+    // },
   },
   {
     id: "Date_of_Approval",

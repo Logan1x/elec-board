@@ -29,7 +29,5 @@ Dashboard.getInitialProps = async (ctx) => {
   //   const connectionRecords = await axGetAllConnections(initialFilterParams);
   const connectionRecords = await axGetAllConnections({});
 
-  console.log("connectionRecords1", connectionRecords);
-
   return { connectionRecords, initialFilterParams };
 };
