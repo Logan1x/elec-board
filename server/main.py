@@ -19,23 +19,23 @@ app.add_middleware(
 
 class connections(BaseModel):
     ID: int = Field(..., alias="ID")
-    applicant_name: str = Field(..., alias="Applicant_Name")
-    gender: str = Field(..., alias="Gender")
-    district: Optional[str] = Field(None, alias="District")
-    state: Optional[str] = Field(None, alias="State")
-    pincode: Optional[int] = Field(None, alias="Pincode")
-    ownership: Optional[str] = Field(None, alias="Ownership")
-    govt_id_type: str = Field(..., alias="GovtID_Type")
-    id_number: str = Field(..., alias="ID_Number")
-    category: str = Field(..., alias="Category")
-    load_applied: int = Field(..., alias="Load_Applied (in KV)", le=200)
-    date_of_application: str = Field(..., alias="Date_of_Application")
-    date_of_approval: Optional[str] = Field(None, alias="Date_of_Approval")
-    modified_date: Optional[str] = Field(None, alias="Modified_Date")
-    status: str = Field(..., alias="Status")
-    reviewer_id: Optional[int] = Field(None, alias="Reviewer_ID")
-    reviewer_name: Optional[str] = Field(None, alias="Reviewer_Name")
-    reviewer_comments: Optional[str] = Field(None, alias="Reviewer_Comments")
+    Applicant_Name: str = Field(..., alias="Applicant_Name")
+    Gender: str = Field(..., alias="Gender")
+    District: Optional[str] = Field(None, alias="District")
+    State: Optional[str] = Field(None, alias="State")
+    Pincode: Optional[int] = Field(None, alias="Pincode")
+    Ownership: Optional[str] = Field(None, alias="Ownership")
+    GovtID_Type: str = Field(..., alias="GovtID_Type")
+    ID_Number: int = Field(..., alias="ID_Number")
+    Category: str = Field(..., alias="Category")
+    Load_Applied: int = Field(..., alias="Load_Applied", le=200)
+    Date_of_Application: str = Field(..., alias="Date_of_Application")
+    Date_of_Approval: Optional[str] = Field(None, alias="Date_of_Approval")
+    Modified_Date: Optional[str] = Field(None, alias="Modified_Date")
+    Status: str = Field(..., alias="Status")
+    Reviewer_ID: Optional[int] = Field(None, alias="Reviewer_ID")
+    Reviewer_Name: Optional[str] = Field(None, alias="Reviewer_Name")
+    Reviewer_Comments: Optional[str] = Field(None, alias="Reviewer_Comments")
 
 
 @app.get("/connections/")
@@ -45,7 +45,7 @@ async def read_connections(
     end_date: Optional[str] = None,
 ):
     try:
-        query = supabase.from_("electricity_board").select("*")
+        query = supabase.from_("electricity_board").select("*").order("ID")
 
         if applicant_id:
             query = query.filter("ID", "eq", applicant_id)
@@ -62,10 +62,12 @@ async def read_connections(
         raise HTTPException(status_code=500, detail=str(e))
 
 
-@app.put("/connections/{applicant_id}")
-async def update_connections(applicant_id: str, connection: connections):
+@app.put("/connections/{applicant_id}/")
+async def update_connections(applicant_id: int, connection: connections):
     try:
-        if connection.load_applied > 200:
+        print("applicant_id", applicant_id)
+        print("connection", connection.dict())
+        if connection.Load_Applied > 200:
             raise HTTPException(
                 status_code=400, detail="Load applied should not exceed 200 KV."
             )
@@ -73,18 +75,18 @@ async def update_connections(applicant_id: str, connection: connections):
             supabase.from_("electricity_board")
             .update(
                 {
-                    "Applicant_Name": connection.applicant_name,
-                    "Gender": connection.gender,
-                    "District": connection.district,
-                    "State": connection.state,
-                    "Pincode": connection.pincode,
-                    "Ownership": connection.ownership,
-                    "Category": connection.category,
-                    "Load_Applied (in KV)": connection.load_applied,
-                    "Status": connection.status,
-                    "Reviewer_ID": connection.reviewer_id,
-                    "Reviewer_Name": connection.reviewer_name,
-                    "Reviewer_Comments": connection.reviewer_comments,
+                    "Applicant_Name": connection.Applicant_Name,
+                    "Gender": connection.Gender,
+                    "District": connection.District,
+                    "State": connection.State,
+                    "Pincode": connection.Pincode,
+                    "Ownership": connection.Ownership,
+                    "Category": connection.Category,
+                    "Load_Applied": connection.Load_Applied,
+                    "Status": connection.Status,
+                    "Reviewer_ID": connection.Reviewer_ID,
+                    "Reviewer_Name": connection.Reviewer_Name,
+                    "Reviewer_Comments": connection.Reviewer_Comments,
                 }
             )
             .match({"ID": applicant_id})
@@ -93,3 +95,8 @@ async def update_connections(applicant_id: str, connection: connections):
         return response.data
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+
+# @app.put("/connections/{applicant_id}/")
+# async def test_connections(applicant_id: int):
+#     print("applicant_id", applicant_id)

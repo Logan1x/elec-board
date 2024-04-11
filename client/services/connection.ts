@@ -1,9 +1,12 @@
 import axios from "axios";
 
-export const axGetAllConnections = async () => {
+export const axGetAllConnections = async (filters) => {
   try {
     const response = await axios.get(
-      `${import.meta.env.VITE_BACKEND_URL}/connections/`
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/connections/`,
+      {
+        params: filters,
+      }
     );
 
     return response.data;
@@ -13,14 +16,14 @@ export const axGetAllConnections = async () => {
 };
 
 export const axUpdateConnection = async (
-  applicant_id: string,
-  connectionRecord: unknown
+  applicant_id: number,
+  connectionRecord: any
 ) => {
   try {
     const response = await axios.put(
-      `${import.meta.env.VITE_BACKEND_URL}/connections/${applicant_id}/`,
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/connections/${applicant_id}/`,
       {
-        connection: connectionRecord,
+        ...connectionRecord,
       }
     );
 
