@@ -45,3 +45,7 @@ It is a python script which is used to modify the initial data. You can skip thi
 ![Homepage with Record table and Chart Visualization](assets/home_page.png)
 
 ![Edit Page](assets/edit_page.png)
+
+## Known Issues
+
+- Date Range Picker is not working as expected.
