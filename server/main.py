@@ -95,8 +95,3 @@ async def update_connections(applicant_id: int, connection: connections):
         return response.data
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-
-
-# @app.put("/connections/{applicant_id}/")
-# async def test_connections(applicant_id: int):
-#     print("applicant_id", applicant_id)
